@@ -25,7 +25,6 @@ public class HomePageActivity extends AppCompatActivity {
 
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +33,8 @@ public class HomePageActivity extends AppCompatActivity {
         lvValues = (ListView) findViewById(R.id.lvValues);
         //values = new ArrayList<String>();
 
-        readItems();
-        //values = databaseHelper.readExistingValues();
+        //readItems();
+        values = databaseHelper.readExistingValues();
         valuesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
 
         lvValues.setAdapter(valuesAdapter);
@@ -53,9 +52,9 @@ public class HomePageActivity extends AppCompatActivity {
         String newValue = etValues.getText().toString();
         valuesAdapter.add(newValue);
         etValues.setText("");
-        writeItems();
 
-        //databaseHelper.addValues(newValue);
+        //writeItems();
+        databaseHelper.addValues(newValue);
     }
 
     /*  Setting up listener to edit list value on short click by calling edit activity */
@@ -64,7 +63,6 @@ public class HomePageActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener(){
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View item, int pos, long id ){
-                        //editExistingValue(((TextView) item).getText().toString(), pos);
                         Intent i = new Intent(HomePageActivity.this, EditItemActivity.class);
                         i.putExtra("valueToEdit", ((TextView) item).getText().toString());
                         i.putExtra("position", pos);
@@ -72,7 +70,6 @@ public class HomePageActivity extends AppCompatActivity {
                     }
                 }
         );
-
     }
 
     /*  Retrieving the results from edit activity and adding the edited value to existing list  */
@@ -91,11 +88,9 @@ public class HomePageActivity extends AppCompatActivity {
                 values.remove(editedPosition);
                 values.add(editedPosition, editedValue);
                 valuesAdapter.notifyDataSetChanged();
-                writeItems();
+                //writeItems();
 
-                //Toast.makeText(HomePageActivity.this, "after edit 1"+oldValue , Toast.LENGTH_SHORT).show();
-                //databaseHelper.updateValues(oldValue, editedValue);
-                //Toast.makeText(HomePageActivity.this, "after edit 2"+editedValue , Toast.LENGTH_SHORT).show();
+                databaseHelper.updateValues(oldValue, editedValue);
             }
         }
     }
@@ -108,12 +103,11 @@ public class HomePageActivity extends AppCompatActivity {
                     public boolean onItemLongClick(AdapterView<?> adapterView, View item, int pos, long id){
                         values.remove(pos);
                         valuesAdapter.notifyDataSetChanged();
-                        writeItems();
-                        //String deletedValue = ((TextView) item).getText().toString();
+                        //writeItems();
+                        String deletedValue = ((TextView) item).getText().toString();
 
-                        //Toast.makeText(HomePageActivity.this, "in delete 1"+deletedValue , Toast.LENGTH_SHORT).show();
-                        //databaseHelper.deleteValues(deletedValue);
-                        //Toast.makeText(HomePageActivity.this, "in delete 2", Toast.LENGTH_SHORT).show();
+                        databaseHelper.deleteValues(deletedValue);
+                        valuesAdapter.notifyDataSetChanged();
                         return true;
                     }
                 }

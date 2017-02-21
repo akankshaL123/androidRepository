@@ -4,7 +4,7 @@ PostIt is an android app that allows building a todo list and basic todo items m
 
 Submitted by: Akanksha Lonhari
 
-Time spent: 7 hours spent in total
+Time spent: 10 hours spent in total
 
 ## User Stories
 
@@ -16,7 +16,7 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-* [ ] Persist the todo items [into SQLite](http://guides.codepath.com/android/Persisting-Data-to-the-Device#sqlite) instead of a text file
+[*] Persist the todo items [into SQLite](http://guides.codepath.com/android/Persisting-Data-to-the-Device#sqlite) instead of a text file
 * [ ] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
 * [ ] Add support for completion due dates for todo items (and display within listview item)
 * [ ] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
@@ -31,13 +31,18 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-File name : FinalVideo_CodepathApp_AkankshaL.mov
-Location : Included on GitHub repository
+File name 1: FinalVideo_CodepathApp_AkankshaL.mov
+Location 1: Included on GitHub repository
+(Video file created on QuickTime player with .mov file extension)
+
+File name 2: FinalVideo_CodepathApp_AkankshaL_2.mov
+Location 2: Included on GitHub repository
 (Video file created on QuickTime player with .mov file extension)
 
 ## Notes
 
 The notes were very through and descriptive and did not have any trouble following them.
+I did try implementing the custom Adapter and the UI/UX optional features, but had some issues executing them without errors.
 
 ## License
 

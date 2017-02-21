@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_POSTS = "postApp";
 
     private static final String KEY_POSTS_ID = "ID";
-    private static final String KEY_POSTS_VALUE = "values";
+    private static final String KEY_POSTS_VALUE = "names";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,9 +33,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Only called on first time table creation
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("create" , "database");
-        String CREATE_TABLE_POSTS = "CREATE TABLE " + TABLE_POSTS + "(" + KEY_POSTS_ID + "INTEGER PRIMARY KEY," + KEY_POSTS_VALUE+ ")";
+        String CREATE_TABLE_POSTS = "CREATE TABLE " + TABLE_POSTS + "(" + KEY_POSTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_POSTS_VALUE+ " TEXT)";
+        Log.d("Create Query :", CREATE_TABLE_POSTS);
         db.execSQL(CREATE_TABLE_POSTS);
+        Log.d("Success, Table created", TABLE_POSTS);
     }
 
     @Override
@@ -44,25 +45,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void onUpgrade(SQLiteDatabase db, String oldValue, String newValue) {
-        String QUERY = String.format("SELECT * FROM %s WHERE %s=%s", TABLE_POSTS, KEY_POSTS_VALUE, oldValue);
-        int existingValueId = -1;
+        String QUERY = String.format("SELECT * FROM "+ TABLE_POSTS + " WHERE " + KEY_POSTS_VALUE +" = '"+ oldValue +"'");
+        Log.d("Existing value query:", QUERY);
+        String existingValueId = null;
         if(oldValue != newValue){
             db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery(QUERY , null);
             if(0 != cursor.getCount()){
+                Log.d("Query results count:", String.valueOf(cursor.getCount()));
                 cursor.moveToFirst();
-                existingValueId = cursor.getColumnIndex(oldValue);
-                Log.d("column", String.valueOf(existingValueId));
-                //existingValueId = cursor.getString(cursor.getColumnIndex(KEY_POSTS_ID));
+                existingValueId = cursor.getString(cursor.getColumnIndex(KEY_POSTS_ID));
+                Log.d("ID returned:", existingValueId);
             }
             cursor.close();
-            if(existingValueId != -1) {
+            if(existingValueId != null) {
                 db = getWritableDatabase();
 
+                Log.d("Value to update", newValue+" for ID : "+String.valueOf(existingValueId));
                 ContentValues newValues = new ContentValues();
                 newValues.put(KEY_POSTS_VALUE, newValue);
 
-                db.update(TABLE_POSTS, newValues, KEY_POSTS_ID+"=", new String[]{ String.valueOf(existingValueId)});
+                db.update(TABLE_POSTS, newValues, KEY_POSTS_ID+" = ?", new String[]{ String.valueOf(existingValueId)});
+                Log.d("Update successful", newValue);
             }
         }
     }
@@ -71,21 +75,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<String> readExistingValues(){
         ArrayList <String> existingValues = new ArrayList<>();
         String QUERY = String.format("SELECT * FROM %s", TABLE_POSTS);
+        Log.d("Read values query ", QUERY);
         SQLiteDatabase db = this.getReadableDatabase();
-        Log.d(" before cursor ", null);
         Cursor cursor = db.rawQuery(QUERY , null);
-        Log.d(" after cursor ", cursor.toString());
         if(null != cursor) {
             if(cursor.moveToFirst()) {
                 do {
-                    String newValueId = cursor.getString(cursor.getColumnIndex(KEY_POSTS_ID));
-                    Log.d("index ", String.valueOf(newValueId));
+                    //String newValueId = cursor.getString(cursor.getColumnIndex(KEY_POSTS_ID));
                     String newValue = cursor.getString(cursor.getColumnIndex(KEY_POSTS_VALUE));
+                    Log.d("Existing value to add", newValue);
                     existingValues.add(newValue);
                 } while (cursor.moveToNext());
             }
         }
-        Log.d(" returning values ", existingValues.toString());
         return existingValues;
     }
 
@@ -103,18 +105,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_POSTS_VALUE, newValue);
 
         db.insert(TABLE_POSTS, null, values);
+        Log.d("Database: Add method", "Addition successful");
         db.setTransactionSuccessful();
         db.endTransaction();
     }
 
     public void deleteValues(String deletedValue){
-
-        String QUERY = String.format("DELETE FROM %s WHERE %s=%s", TABLE_POSTS, KEY_POSTS_VALUE, deletedValue);
         SQLiteDatabase db = this.getWritableDatabase();
+        String whereClause = KEY_POSTS_VALUE+" = ?";
 
         db.beginTransaction();
-        Log.d("delete " , QUERY);
-        db.delete(TABLE_POSTS, KEY_POSTS_VALUE, new String[]{String.valueOf(deletedValue)});
+
+        db.delete(TABLE_POSTS, whereClause, new String[]{deletedValue});
+        Log.d("Database: Delete method", "Deletion successful");
         db.setTransactionSuccessful();
         db.endTransaction();
     }
