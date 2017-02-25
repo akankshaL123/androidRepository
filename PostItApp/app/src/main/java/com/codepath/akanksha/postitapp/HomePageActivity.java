@@ -22,6 +22,9 @@ public class HomePageActivity extends AppCompatActivity {
     ArrayList <String> values;
     ArrayAdapter <String> valuesAdapter;
     ListView lvValues ;
+    ArrayList<Posts> arrayOfPosts = new ArrayList<Posts>();
+    //PostsAdapter postsAdapter;
+    //private static int count = 0;
 
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
@@ -36,8 +39,10 @@ public class HomePageActivity extends AppCompatActivity {
         //readItems();
         values = databaseHelper.readExistingValues();
         valuesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
-
         lvValues.setAdapter(valuesAdapter);
+
+        //postsAdapter = new PostsAdapter(this, values);
+        //lvValues.setAdapter(postsAdapter);
 
         //setting up listener for deleting list values on long click
         setupListViewListener();
@@ -51,10 +56,13 @@ public class HomePageActivity extends AppCompatActivity {
         EditText etValues = (EditText) findViewById(R.id.etValues);
         String newValue = etValues.getText().toString();
         valuesAdapter.add(newValue);
+        //Posts newpost = new Posts(String.valueOf(count), newValue);
+        //postsAdapter.add(newValue);
         etValues.setText("");
-
+        //count++;
         //writeItems();
         databaseHelper.addValues(newValue);
+        //databaseHelper.addValues(post);
     }
 
     /*  Setting up listener to edit list value on short click by calling edit activity */
@@ -88,6 +96,7 @@ public class HomePageActivity extends AppCompatActivity {
                 values.remove(editedPosition);
                 values.add(editedPosition, editedValue);
                 valuesAdapter.notifyDataSetChanged();
+                //postsAdapter.notifyDataSetChanged();
                 //writeItems();
 
                 databaseHelper.updateValues(oldValue, editedValue);
@@ -103,11 +112,13 @@ public class HomePageActivity extends AppCompatActivity {
                     public boolean onItemLongClick(AdapterView<?> adapterView, View item, int pos, long id){
                         values.remove(pos);
                         valuesAdapter.notifyDataSetChanged();
+                        //postsAdapter.notifyDataSetChanged();
                         //writeItems();
                         String deletedValue = ((TextView) item).getText().toString();
 
                         databaseHelper.deleteValues(deletedValue);
                         valuesAdapter.notifyDataSetChanged();
+                        //postsAdapter.notifyDataSetChanged();
                         return true;
                     }
                 }

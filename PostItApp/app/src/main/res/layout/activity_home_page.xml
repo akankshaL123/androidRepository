@@ -8,25 +8,26 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/home_image"
     tools:context="com.codepath.akanksha.postitapp.HomePageActivity">
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="350px"
+        android:layout_height="80px"
         android:inputType="textPersonName"
         android:ems="10"
         android:layout_alignBottom="@+id/btnAdd"
         android:layout_toLeftOf="@+id/btnAdd"
-        android:layout_toStartOf="@+id/btnAdd"
         android:layout_marginRight="13dp"
         android:layout_marginEnd="13dp"
         android:id="@+id/etValues"
-        android:hint="@string/enter_new_values_label" />
+        android:hint="@string/enter_new_values_label"
+        android:background="@drawable/states_selector_list" />
 
     <Button
         android:text="@string/add_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150px"
+        android:layout_height="80px"
         android:layout_marginRight="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
@@ -34,15 +35,20 @@
         android:onClick="addNewValues"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/gradient_shape"
+        android:minHeight="20dp" />
 
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="750px"
+        android:layout_height="800px"
         android:layout_alignLeft="@+id/etValues"
         android:layout_alignStart="@+id/etValues"
         android:layout_above="@+id/btnAdd"
         android:layout_alignRight="@+id/btnAdd"
         android:layout_alignEnd="@+id/btnAdd"
-        android:id="@+id/lvValues" />
+        android:gravity="right"
+        android:id="@+id/lvValues"
+        android:listSelector="@drawable/states_selector_list"/>
+
 </RelativeLayout>

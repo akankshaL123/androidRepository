@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "appDB1";
+    private static final String DATABASE_NAME = "appDB";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String TABLE_POSTS = "postApp";
+    private static final String TABLE_POSTS = "postAppTable";
 
     private static final String KEY_POSTS_ID = "ID";
     private static final String KEY_POSTS_VALUE = "names";
@@ -75,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<String> readExistingValues(){
         ArrayList <String> existingValues = new ArrayList<>();
         String QUERY = String.format("SELECT * FROM %s", TABLE_POSTS);
-        Log.d("Read values query ", QUERY);
+        Log.d("Read values query", QUERY);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(QUERY , null);
         if(null != cursor) {
@@ -83,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 do {
                     //String newValueId = cursor.getString(cursor.getColumnIndex(KEY_POSTS_ID));
                     String newValue = cursor.getString(cursor.getColumnIndex(KEY_POSTS_VALUE));
-                    Log.d("Existing value to add", newValue);
+                    Log.d("\nExisting value to add\n", newValue);
                     existingValues.add(newValue);
                 } while (cursor.moveToNext());
             }
@@ -98,6 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void addValues(String newValue){
+    //public void addValues(Posts post){
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
 

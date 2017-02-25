@@ -21,7 +21,7 @@ The following **optional** features are implemented:
 * [ ] Add support for completion due dates for todo items (and display within listview item)
 * [ ] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
 * [ ] Add support for selecting the priority of each todo item (and display in listview item)
-* [ ] Tweak the style improving the UI / UX, play with colors, images or backgrounds
+[*] Tweak the style improving the UI / UX, play with colors, images or backgrounds
 
 The following **additional** features are implemented:
 
@@ -43,6 +43,15 @@ Location 2: Included on GitHub repository
 
 The notes were very through and descriptive and did not have any trouble following them.
 I did try implementing the custom Adapter and the UI/UX optional features, but had some issues executing them without errors.
+Error with Custom Adapter : Was not able to link the standard android layout style for ListView in the custom adapter inflate call.
+
+For UI/UX I successfully completed :
+ 1. Adding background image
+ 2. Changed UI layout relative to the background image
+ 3. Added styles for list rows for 'pressed' and 'select' states of rows
+ 4. Added list style selector according to current style of list rows
+ 5. Added border around a text-label
+ 6. Added gradient effect to buttons
 
 ## License
 
